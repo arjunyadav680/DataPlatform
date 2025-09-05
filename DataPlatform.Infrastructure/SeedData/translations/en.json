@@ -1,0 +1,23 @@
+{
+  "Nav.Home": "Home",
+  "Nav.About": "About",
+  "Nav.Contact": "Contact",
+  "Nav.Services": "Services",
+  "Auth.Login": "Login",
+  "Auth.Logout": "Logout",
+  "Auth.Register": "Register",
+  "Auth.ForgotPassword": "Forgot Password",
+  "Common.Save": "Save",
+  "Common.Cancel": "Cancel",
+  "Common.Delete": "Delete",
+  "Common.Edit": "Edit",
+  "Common.Add": "Add",
+  "Common.Search": "Search",
+  "Employee.Name": "Name",
+  "Employee.Email": "Email",
+  "Employee.Phone": "Phone",
+  "Employee.Department": "Department",
+  "Employee.Position": "Position",
+  "Salary.Amount": "Salary Amount",
+  "Salary.Currency": "Currency"
+}

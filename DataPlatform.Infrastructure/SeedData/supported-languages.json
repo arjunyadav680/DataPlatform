@@ -1,0 +1,47 @@
+[
+  {
+    "culture": "en",
+    "displayName": "English",
+    "nativeName": "English",
+    "direction": "ltr",
+    "enabled": true,
+    "priority": 10,
+    "source": "seed"
+  },
+  {
+    "culture": "es",
+    "displayName": "Spanish",
+    "nativeName": "Español",
+    "direction": "ltr",
+    "enabled": true,
+    "priority": 20,
+    "source": "seed"
+  },
+  {
+    "culture": "fr",
+    "displayName": "French",
+    "nativeName": "Français",
+    "direction": "ltr",
+    "enabled": true,
+    "priority": 30,
+    "source": "seed"
+  },
+  {
+    "culture": "de",
+    "displayName": "German",
+    "nativeName": "Deutsch",
+    "direction": "ltr",
+    "enabled": true,
+    "priority": 40,
+    "source": "seed"
+  },
+  {
+    "culture": "ar",
+    "displayName": "Arabic",
+    "nativeName": "العربية",
+    "direction": "rtl",
+    "enabled": true,
+    "priority": 50,
+    "source": "seed"
+  }
+]

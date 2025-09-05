@@ -1,0 +1,23 @@
+{
+  "Nav.Home": "Inicio",
+  "Nav.About": "Acerca de",
+  "Nav.Contact": "Contacto",
+  "Nav.Services": "Servicios",
+  "Auth.Login": "Iniciar Sesión",
+  "Auth.Logout": "Cerrar Sesión",
+  "Auth.Register": "Registrarse",
+  "Auth.ForgotPassword": "Olvidé mi Contraseña",
+  "Common.Save": "Guardar",
+  "Common.Cancel": "Cancelar",
+  "Common.Delete": "Eliminar",
+  "Common.Edit": "Editar",
+  "Common.Add": "Agregar",
+  "Common.Search": "Buscar",
+  "Employee.Name": "Nombre",
+  "Employee.Email": "Correo Electrónico",
+  "Employee.Phone": "Teléfono",
+  "Employee.Department": "Departamento",
+  "Employee.Position": "Posición",
+  "Salary.Amount": "Monto del Salario",
+  "Salary.Currency": "Moneda"
+}

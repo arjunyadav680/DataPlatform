@@ -1,0 +1,28 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace DataPlatform.Infrastructure.Entities
+{
+    public class UserEntity : BaseEntity
+    {
+        [Required]
+        [MaxLength(100)]
+        public string Username { get; set; } = "";
+
+        [Required]
+        [MaxLength(255)]
+        public string Email { get; set; } = "";
+
+        [Required]
+        public string PasswordHash { get; set; } = "";
+
+        [Required]
+        public string Salt { get; set; } = "";
+
+        public DateTime? LastLoginAt { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        // Navigation properties
+        public ICollection<UserSessionEntity> Sessions { get; set; } = new List<UserSessionEntity>();
+    }
+}
