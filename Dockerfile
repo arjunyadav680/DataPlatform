@@ -27,7 +27,15 @@ RUN dotnet publish -c Release -o /app/publish
 # --- Runtime stage: smaller image ---
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
+
+# Set default port (can be overridden by docker-compose)
+ENV APP_INTERNAL_PORT=80
 ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_PATHBASE=""
+
 COPY --from=build /app/publish .
+
+# Expose default port (docker-compose will override this)
 EXPOSE 80
+
 ENTRYPOINT ["dotnet","DataPlatform.API.dll"]

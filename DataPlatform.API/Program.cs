@@ -24,7 +24,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 AppConfigure.AddCorsSettings(builder.Services, _myAllowSpecificOrigins);
 AppConfigure.AddHttpClient(builder.Services);
 
-var pathBase = "/";
+var pathBase = builder.Configuration["ASPNETCORE_PATHBASE"] ?? "";
 
 var app = builder.Build();
 
@@ -68,9 +68,9 @@ app.MapControllers();
 app.MapFallbackToFile("/index.html");
 
 // Seed database in development
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     await app.Services.SeedDatabaseAsync();
-}
+//}
 
 app.Run();

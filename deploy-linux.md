@@ -39,15 +39,34 @@ systemctl status ssh
 ```powershell
 # Your specific command:
 scp dataplatform-app.tar lin@192.168.29.217:/home/lin/
+scp dataplatform-app.tar docker-compose.yml .env lin@192.168.29.217:/home/lin/ 
 ```
 
 ## Step 4: Install Docker on Linux (Run once only)
 ```bash
 sudo apt update
-sudo apt install docker.io -y
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -aG docker $USER
+sudo apt install docker.io -y #Install Docker
+sudo systemctl start docker #Start Docker
+sudo systemctl enable docker #Enable auto-start at boot:
+sudo usermod -aG docker $USER #Fix permissions
+newgrp docker #his makes docker usable without sudo.
+
+# Your specific command for docker compose: (if needed)
+sudo apt install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+docker compose version
+
+
 ```
 **Important: Log out and log back in after this step**
 

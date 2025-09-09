@@ -34,19 +34,22 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <Target Name="CopyAngularToWwwroot" AfterTargets="Publish">
-    <!-- Run npm install and build the Angular app -->
-    <Exec Command="npm install" WorkingDirectory="..\DataPlatform.Client" />
-    <Exec Command="npm run build -- --configuration production" WorkingDirectory="..\DataPlatform.Client" />
+    <Target Name="CopyAngularToWwwroot" AfterTargets="Publish">
+  <PropertyGroup>
+    <AngularBaseHref>$(ASPNETCORE_PATHBASE)</AngularBaseHref>
+    <AngularBaseHref Condition="'$(AngularBaseHref)' == ''">/</AngularBaseHref>
+    <!-- Ensure it ends with slash -->
+    <AngularBaseHref Condition="!$(AngularBaseHref.EndsWith('/'))">$(AngularBaseHref)/</AngularBaseHref>
+  </PropertyGroup>
 
-    <!-- Correct path to match actual output -->
-    <ItemGroup>
-      <AngularDistFiles Include="..\DataPlatform.Client\dist\dataplatform.client\browser\**\*" />
-    </ItemGroup>    
+  <Exec Command="npm install" WorkingDirectory="..\DataPlatform.Client" />
+  <Exec Command="npm run build -- --configuration production --base-href $(AngularBaseHref)" WorkingDirectory="..\DataPlatform.Client" />
 
-    <!-- Copy to wwwroot folder -->
-    <Copy SourceFiles="@(AngularDistFiles)" DestinationFolder="$(PublishDir)wwwroot\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  <ItemGroup>
+    <AngularDistFiles Include="..\DataPlatform.Client\dist\dataplatform.client\browser\**\*" />
+  </ItemGroup>
 
-  </Target>
+  <Copy SourceFiles="@(AngularDistFiles)" DestinationFolder="$(PublishDir)wwwroot\%(RecursiveDir)" SkipUnchangedFiles="true" />
+</Target>
 
 </Project>
