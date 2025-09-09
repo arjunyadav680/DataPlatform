@@ -76,6 +76,7 @@ docker compose version
 docker load -i dataplatform-app.tar
 
 # Run the container
+docker compose --profile internaldb up -d
 docker run -d -p 8080:80 --name myapp dataplatform-app
 
 # Check if running
@@ -85,6 +86,7 @@ docker ps
 ## Step 6: Open Firewall
 ```bash
 sudo ufw allow 8080
+sudo ufw allow 5432/tcp
 ```
 
 ## Access Your App

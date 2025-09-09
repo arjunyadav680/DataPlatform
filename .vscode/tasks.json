@@ -2,16 +2,31 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "api: run",
-      "type": "process",
+      "label": "api: build",
+      "type": "shell",
       "command": "dotnet",
-    "args": [ "watch", "run", "--project", "DataPlatform.API/DataPlatform.API.csproj" ]
+      "args": [
+        "build",
+        "${workspaceFolder}/DataPlatform.API/DataPlatform.API.csproj",
+        "-c",
+        "Debug"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$msCompile"
     },
+
     {
       "label": "client: run",
-      "type": "npm",
-      "script": "start",
-      "path": "DataPlatform.Client"
+      "type": "shell",
+      "command": "npm",
+      "args": ["start"],
+      "options": {
+        "cwd": "${workspaceFolder}/DataPlatform.Client"
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        "$tsc-watch"
+      ]
     }
   ]
 }

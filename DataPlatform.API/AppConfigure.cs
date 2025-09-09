@@ -49,27 +49,36 @@ namespace DataPlatform.API
             });
         }
 
-        public static void AddCorsSettings(IServiceCollection services, string myAllowSpecificOrigins)
+        public static void AddCorsSettings(IServiceCollection services, string[] allowedOrigins, string myAllowSpecificOrigins)
         {
-            string customerServerUrl = "http://127.0.0.1:4200";// EnvironmentHelper.GetServerUrl().TrimEnd('/');
-
-            services.AddCors(options =>
+          
+           services.AddCors(options =>
+        {
+            options.AddPolicy(name: myAllowSpecificOrigins, builder =>
             {
-                options.AddPolicy(name: myAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder
-                                       .SetIsOriginAllowed(origin => string.IsNullOrEmpty(origin) ||
-                                       (
-                                        origin.StartsWith(customerServerUrl) ||
-                                        origin.EndsWith(".trycloudflare.com") ||// For support trycloudflare - remove when production
-                                        origin.EndsWith(".ngrok-free.app")
-                                       ))
-                                      .AllowAnyHeader()
-                                      .AllowAnyMethod()
-                                      .AllowCredentials();//To connect ws specifically for signalR
-                                  });
+                builder.SetIsOriginAllowed(origin =>
+                {
+                    if (string.IsNullOrEmpty(origin))
+                        return true;
+
+                    // Exact matches from config
+                    if (allowedOrigins.Any(o =>
+                        !o.StartsWith("*.") &&
+                        origin.StartsWith(o, StringComparison.OrdinalIgnoreCase)))
+                        return true;
+
+                    if (allowedOrigins.Any(o =>
+                        o.StartsWith("*.") &&
+                        origin.EndsWith(o.Substring(1), StringComparison.OrdinalIgnoreCase)))
+                        return true;
+
+                    return false;
+                })
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials(); // needed for SignalR
             });
+        });
         }
 
         public static void AddHangfire(IServiceCollection services)

@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   const baseHref = baseElement ? baseElement.getAttribute('href') : null;
   const baseUri = `${origin}${baseHref}api/weather`;
 
-  if(baseUri.includes('http://127.0.0.1:4200')) {
+  if(baseUri.includes('http://127.0.0.1:4200') || baseUri.includes('http://localhost:4200')) {
     return 'http://localhost:5022/api/weather';
   }
 

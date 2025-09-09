@@ -21,20 +21,25 @@ builder.Services.AddOpenApi();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
-AppConfigure.AddCorsSettings(builder.Services, _myAllowSpecificOrigins);
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
+
+AppConfigure.AddCorsSettings(builder.Services, allowedOrigins, _myAllowSpecificOrigins);
 AppConfigure.AddHttpClient(builder.Services);
 
-var pathBase = builder.Configuration["ASPNETCORE_PATHBASE"] ?? "";
+// Get virtual path from appsettings or environment variable
+var pathBase = builder.Configuration["App:VirtualPath"] ?? "/";
 
 var app = builder.Build();
 
 app.UseCors(_myAllowSpecificOrigins);
+
+// Configure virtual path if specified
+
 app.UsePathBase(pathBase);
 
 // Write logic to redirect by default swagger page when the application starts.
 // And also fix trailing slash url issue.
 var option = new RewriteOptions();
-// Redirect root to /scalar
 
 if (app.Environment.IsDevelopment())
 {
@@ -42,7 +47,9 @@ if (app.Environment.IsDevelopment())
 }
 else
 { 
-    option.AddRedirect("^$", "index.html", 302);
+    // In production, you can choose to redirect to Scalar or your Angular app
+    // option.AddRedirect("^$", "/scalar", 302);  // Uncomment to redirect to API docs
+    option.AddRedirect("^$", "index.html", 302);   // Redirect to Angular app
 }
 
 app.UseRewriter(option);
@@ -61,6 +68,9 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseHttpsRedirection();
+    // Enable Scalar in Production too
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseAuthorization();

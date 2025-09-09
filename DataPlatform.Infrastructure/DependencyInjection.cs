@@ -10,9 +10,21 @@ namespace DataPlatform.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
-            var provider = config["DatabaseProvider"];
+            var provider = config["Database:Provider"];
+            var useInternalDb = Convert.ToBoolean(config["Database:UseInternalDb"] ?? "false");
+            
+            // Select connection string based on configuration
+            string postgresConn;
+            if (useInternalDb)
+            {
+                postgresConn = config["ConnectionStrings:Postgres"];
+            }
+            else
+            {
+                postgresConn = config["ConnectionStrings:PostgresExternal"];
+            }
+            
             var sqlServerConn = config["ConnectionStrings:SqlServer"];
-            var postgresConn = config["ConnectionStrings:Postgres"];
 
             if (provider?.ToLower() == "sqlserver")
             {
